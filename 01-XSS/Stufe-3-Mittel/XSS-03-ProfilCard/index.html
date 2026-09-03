@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProfilCard — deine Visitenkarte</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:system-ui,Segoe UI,Roboto,sans-serif;background:#0d1117;color:#c9d1d9;display:flex;align-items:center;justify-content:center;padding:24px}
+.card{width:100%;max-width:640px;background:#161b22;border:1px solid #30363d;border-radius:14px;padding:28px 30px;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+h1{margin:0 0 4px;font-size:22px}.sub{margin:0 0 18px;color:#8b949e;font-size:14px}
+label{display:block;font-size:13px;color:#8b949e;margin-bottom:6px}.rowf{display:flex;gap:10px}
+input[type=text]{flex:1;padding:11px 13px;border-radius:8px;border:1px solid #30363d;background:#0d1117;color:#c9d1d9;font-size:15px}
+input[type=text]:focus{outline:none;border-color:#58a6ff}
+button{padding:11px 18px;border-radius:8px;border:1px solid #238636;background:#238636;color:#fff;font-size:15px;font-weight:600;cursor:pointer}
+button:hover{background:#2ea043}
+.preview{margin-top:22px;padding:16px;background:#0d1117;border:1px dashed #30363d;border-radius:8px}
+#flag-box{margin-top:18px;padding:16px;border-radius:8px;background:#10331a;border:1px solid #2ea043;color:#7ee787;font-family:ui-monospace,Consolas,monospace;font-size:16px}
+.foot{margin-top:24px;font-size:12px;color:#6e7681;line-height:1.6}code{background:#21262d;padding:1px 6px;border-radius:4px;font-size:12px}
+</style></head><body>
+<div class="card">
+<h1>🪪 ProfilCard</h1>
+<p class="sub">Gib deinen Anzeigenamen ein — er wird in deine Karte übernommen.</p>
+<label for="name-input">Anzeigename</label>
+<div class="rowf"><input type="text" id="name-input" placeholder="z. B. Mario" autocomplete="off"><button id="save-btn">Speichern</button></div>
+<div class="preview"><div style="font-size:12px;color:#8b949e;margin-bottom:8px">Vorschau deiner Karte:</div><div id="card-slot">— noch kein Name —</div></div>
+<div id="flag-box" hidden></div>
+<p class="foot">Auch per URL: <code>index.html?name=deinname</code>. Dein Name landet als Wert eines Eingabefeldes in der Karte.</p>
+</div>
+<script>
+var _b="9R3ZfVGdvVXcfRXMt9FajVnciNXd081M0VnYxIHd0RzeSJVUMVEV";
+function _dec(s){return atob(s.split('').reverse().join(''))}
+function showFlag(){var e=document.getElementById('flag-box');e.textContent="🚩 Flag: "+_dec(_b);e.hidden=false}
+function renderCard(name){
+  document.getElementById('card-slot').innerHTML='<input type="text" readonly value="'+name+'" style="width:100%;padding:8px;border-radius:6px;border:1px solid #30363d;background:#161b22;color:#c9d1d9">';
+}
+window.addEventListener('DOMContentLoaded',function(){
+  var u=new URLSearchParams(location.search).get('name');
+  if(u!==null){document.getElementById('name-input').value=u;renderCard(u)}
+  document.getElementById('save-btn').addEventListener('click',function(){renderCard(document.getElementById('name-input').value)});
+  document.getElementById('name-input').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('save-btn').click()});
+});
+</script></body></html>
