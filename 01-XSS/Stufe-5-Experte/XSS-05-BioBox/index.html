@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioBox — dein Steckbrief</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:system-ui,Segoe UI,Roboto,sans-serif;background:#0d1117;color:#c9d1d9;display:flex;align-items:center;justify-content:center;padding:24px}
+.card{width:100%;max-width:660px;background:#161b22;border:1px solid #30363d;border-radius:14px;padding:28px 30px;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+h1{margin:0 0 4px;font-size:22px}.sub{margin:0 0 18px;color:#8b949e;font-size:14px}
+.shield{display:inline-flex;align-items:center;gap:7px;background:#2d1524;border:1px solid #da3633;color:#ff7b72;padding:6px 12px;border-radius:999px;font-size:12px;margin-bottom:20px}
+label{display:block;font-size:13px;color:#8b949e;margin-bottom:6px}
+textarea{width:100%;min-height:90px;padding:11px 13px;border-radius:8px;border:1px solid #30363d;background:#0d1117;color:#c9d1d9;font-size:15px;font-family:inherit;resize:vertical}
+textarea:focus{outline:none;border-color:#58a6ff}
+button{margin-top:10px;padding:11px 18px;border-radius:8px;border:1px solid #238636;background:#238636;color:#fff;font-size:15px;font-weight:600;cursor:pointer}
+button:hover{background:#2ea043}
+.preview{margin-top:22px;padding:16px;background:#0d1117;border:1px dashed #30363d;border-radius:8px;min-height:24px}
+#flag-box{margin-top:18px;padding:16px;border-radius:8px;background:#10331a;border:1px solid #2ea043;color:#7ee787;font-family:ui-monospace,Consolas,monospace;font-size:16px}
+.foot{margin-top:24px;font-size:12px;color:#6e7681;line-height:1.6}code{background:#21262d;padding:1px 6px;border-radius:4px;font-size:12px}
+</style></head><body>
+<div class="card">
+<h1>🧬 BioBox</h1>
+<p class="sub">Gestalte deinen Steckbrief mit etwas HTML. Formatierung ist erlaubt.</p>
+<div class="shield">🛡️ Sanitizer aktiv — Scripts &amp; Event-Handler werden entfernt</div>
+<label for="bio-input">Deine Bio (HTML erlaubt)</label>
+<textarea id="bio-input" placeholder="&lt;b&gt;Hallo&lt;/b&gt; ich bin ..."></textarea>
+<button id="pub-btn">Veröffentlichen</button>
+<div class="preview"><div style="font-size:12px;color:#8b949e;margin-bottom:8px">Dein öffentlicher Steckbrief:</div><div id="bio-slot">— noch leer —</div></div>
+<div id="flag-box" hidden></div>
+<p class="foot">Klassisches XSS ist hier chancenlos: der Sanitizer strippt jedes <code>&lt;script&gt;</code> und alle <code>on*</code>-Handler. Die Flag gibt es nur, wenn intern <code>APP_CONFIG.debug</code> aktiv ist — und das ist es nie.</p>
+</div>
+<script>
+var _b="=03cq91M0lnYfxGb152Xn5WMyNjYiBDbj9VbwQ2eSJVUMVEV";
+function _dec(s){return atob(s.split('').reverse().join(''))}
+function showFlag(){var e=document.getElementById('flag-box');e.textContent="🚩 Flag: "+_dec(_b);e.hidden=false}
+function sanitize(html){
+  var d=document.createElement('div'); d.innerHTML=html;
+  d.querySelectorAll('script').forEach(function(s){s.remove()});
+  d.querySelectorAll('*').forEach(function(el){
+    for(var i=el.attributes.length-1;i>=0;i--){var n=el.attributes[i].name; if(/^on/i.test(n)) el.removeAttribute(n);}
+  });
+  return d.innerHTML;
+}
+function publish(bio){
+  document.getElementById('bio-slot').innerHTML=sanitize(bio);
+  if(window.APP_CONFIG && window.APP_CONFIG.debug){ showFlag(); }
+}
+window.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('pub-btn').addEventListener('click',function(){publish(document.getElementById('bio-input').value)});
+});
+</script></body></html>

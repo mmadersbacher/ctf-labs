@@ -97,7 +97,7 @@ Legende Setup: 🌐 = Browser · 🖥️ = lok. Server · 🔀 = Server + Proxy 
 
 | # | Klasse | Setup | Labs |
 |---|--------|:-----:|:----:|
-| 01 | XSS — Cross-Site Scripting | 🌐🖥️ | **2** |
+| 01 | XSS — Cross-Site Scripting | 🌐🖥️ | **5** |
 | 02 | SQLi — SQL Injection | 🖥️ | 0 |
 | 03 | IDOR — Insecure Direct Object References | 🖥️ | 0 |
 | 04 | Broken Access Control / PrivEsc | 🖥️ | 0 |

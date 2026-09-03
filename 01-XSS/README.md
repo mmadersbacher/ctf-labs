@@ -20,13 +20,13 @@ Namen des Opfers ausführen oder die Seite manipulieren. Drei Hauptvarianten:
 |-------|--------|-----|-------|
 | **1** Einsteiger | Stufe-1-Einsteiger/ | **XSS-01-Reflektierter-Gruss** — `innerHTML` ohne Filter, Payload schaltet die Flag frei | 🌐 Browser |
 | **2** Leicht | Stufe-2-Leicht/ | **XSS-02-Suche-mit-Filter** — Blacklist-Filter mit Case- & Non-Recursion-Bug, muss umgangen werden | 🌐 Browser |
-| 3 Mittel | Stufe-3-Mittel/ | — noch kein Lab — | |
-| 4 Schwer | Stufe-4-Schwer/ | — noch kein Lab — | |
-| 5 Experte | Stufe-5-Experte/ | — noch kein Lab — | |
+| **3** Mittel | Stufe-3-Mittel/ | **XSS-03-ProfilCard** | 🌐 Browser |
+| **4** Schwer | Stufe-4-Schwer/ | **XSS-04-QuickNote** | 🌐 Browser |
+| **5** Experte | Stufe-5-Experte/ | **XSS-05-BioBox** | 🌐 Browser |
 
 ## Status
 
-**2 Labs** vorhanden (Stufe 1–2). Weitere Stufen bei Bedarf in einer Session anfordern.
+**5 Labs** vorhanden — XSS-Klasse über alle 5 Stufen komplett. 🎉
 
 ---
 Zurueck zur Uebersicht: ../README.md
