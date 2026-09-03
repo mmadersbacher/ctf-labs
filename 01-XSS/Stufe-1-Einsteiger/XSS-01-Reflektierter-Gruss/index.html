@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gästebuch 3000 — Begrüßung</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    background: #0d1117; color: #c9d1d9;
+    display: flex; align-items: center; justify-content: center; padding: 24px;
+  }
+  .card {
+    width: 100%; max-width: 620px;
+    background: #161b22; border: 1px solid #30363d; border-radius: 14px;
+    padding: 28px 30px; box-shadow: 0 12px 40px rgba(0,0,0,.5);
+  }
+  h1 { margin: 0 0 4px; font-size: 22px; }
+  .sub { margin: 0 0 22px; color: #8b949e; font-size: 14px; }
+  label { display: block; font-size: 13px; color: #8b949e; margin-bottom: 6px; }
+  .row { display: flex; gap: 10px; }
+  input[type=text] {
+    flex: 1; padding: 11px 13px; border-radius: 8px;
+    border: 1px solid #30363d; background: #0d1117; color: #c9d1d9; font-size: 15px;
+  }
+  input[type=text]:focus { outline: none; border-color: #58a6ff; }
+  button {
+    padding: 11px 18px; border-radius: 8px; border: 1px solid #238636;
+    background: #238636; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer;
+  }
+  button:hover { background: #2ea043; }
+  #output {
+    margin-top: 22px; padding: 16px; min-height: 24px;
+    background: #0d1117; border: 1px dashed #30363d; border-radius: 8px;
+    font-size: 16px; word-break: break-word;
+  }
+  #flag-box {
+    margin-top: 18px; padding: 16px; border-radius: 8px;
+    background: #10331a; border: 1px solid #2ea043; color: #7ee787;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 16px; letter-spacing: .3px; animation: pop .35s ease;
+  }
+  @keyframes pop { from { transform: scale(.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .foot { margin-top: 24px; font-size: 12px; color: #6e7681; line-height: 1.6; }
+  code { background: #21262d; padding: 1px 6px; border-radius: 4px; font-size: 12px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>👋 Gästebuch 3000</h1>
+    <p class="sub">Trag deinen Namen ein, wir begrüßen dich persönlich.</p>
+
+    <label for="name-input">Dein Name</label>
+    <div class="row">
+      <input type="text" id="name-input" placeholder="z. B. Mario" autocomplete="off">
+      <button id="greet-btn">Begrüßen</button>
+    </div>
+
+    <div id="output">Noch niemand da. Sei der Erste!</div>
+    <div id="flag-box" hidden></div>
+
+    <p class="foot">
+      Tipp: Du kannst den Namen auch direkt über die URL setzen, z. B.
+      <code>index.html?name=Mario</code> — genau wie bei echten Web-Apps.
+    </p>
+  </div>
+
+<script>
+  // -- interne Anzeige-Helfer (nichts Spannendes hier ... oder doch?) --
+  var _b = "=03ZlFDdz5Waz8lczQ2X0NXMfN3c49FZzQ3YzwmZzI3eSJVUMVEV";
+  function _dec(s) { return atob(s.split('').reverse().join('')); }
+
+  // Wird NIE automatisch aufgerufen. Nur wer eigenen Code im Seitenkontext
+  // ausführen kann, kann das hier triggern.
+  function showFlag() {
+    var el = document.getElementById('flag-box');
+    el.textContent = "🚩 Flag: " + _dec(_b);
+    el.hidden = false;
+  }
+
+  // Die Begrüßung — hier steckt die Schwachstelle.
+  function greet(name) {
+    document.getElementById('output').innerHTML =
+      'Hallo, ' + name + '! Schön, dass du da bist.';
+  }
+
+  window.addEventListener('DOMContentLoaded', function () {
+    // Name aus der URL "reflektieren" (?name=...)
+    var fromUrl = new URLSearchParams(location.search).get('name');
+    if (fromUrl !== null) {
+      document.getElementById('name-input').value = fromUrl;
+      greet(fromUrl);
+    }
+    document.getElementById('greet-btn').addEventListener('click', function () {
+      greet(document.getElementById('name-input').value);
+    });
+    document.getElementById('name-input').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') document.getElementById('greet-btn').click();
+    });
+  });
+</script>
+</body>
+</html>
